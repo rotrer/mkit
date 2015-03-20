@@ -1,3 +1,3 @@
-/bootstrap/compiled.php
-.env.*.php
-.env.php
+/app/bootstrap/compiled.php
+/app.env.*.php
+/app.env.php
