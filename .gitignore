@@ -1,3 +1,2 @@
-/app/bootstrap/compiled.php
-/app.env.*.php
-/app.env.php
+/api-library/vendor
+/api-library/composer.lock

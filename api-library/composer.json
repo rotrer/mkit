@@ -1,0 +1,12 @@
+{
+    "name": "google-library/mediakit",
+    "require": {
+        "google/apiclient": "1.0.*@beta"
+    },
+    "authors": [
+        {
+            "name": "Cristian",
+            "email": "rotrer@gmail.com"
+        }
+    ]
+}
