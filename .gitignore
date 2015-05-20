@@ -1,3 +1,5 @@
 /api-library/vendor
 /api-library/composer.lock
 /wp
+
+/mediakit-ga/api-library/vendor
