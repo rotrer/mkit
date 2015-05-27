@@ -57,30 +57,7 @@ jQuery(document).ready(function($) {
 			});
 
 		//GA Calls
-		var start_date = '';
-		var end_date = '';
-		var data = {
-			'action': 'ga_calls',
-			'post_id': post_id,
-			'start_date': start_date,
-			'end_date': end_date
-		};
-		$.ajax({
-			method: "POST",
-			url: ajaxurl,
-			data: data,
-			dataType: 'json'
-		})
-			.done(function( response ) {
-				if ( response.error !== undefined && response.error == false ) 
-				{
-					$("#users_count").empty().html( numberWithCommas( response.data.desktop.users_count ) );
-					$("#sessions_count").empty().html( numberWithCommas( response.data.desktop.sessions_count ) );
-					$("#avg_sessions_duration").empty().html( secondsToMinSeconds( response.data.desktop.avg_sessions_duration ) );
-					$("#pageviews_count").empty().html( numberWithCommas( response.data.desktop.pageviews_count ) );
-					$("#pageviews_per_session").empty().html( response.data.desktop.pageviews_per_session );
-				};
-			});
+		ga_calls('', '');
 
 		/* Special date widget */
 	 
@@ -161,28 +138,21 @@ jQuery(document).ready(function($) {
 			var init_date = new Date( dates_filter[0][0] );
 			var end_date = new Date( dates_filter[0][1] );
 
-			var data = {
-				'action': 'ga_calls',
-				'post_id': post_id,
-				'start_date': init_date.yyyymmdd(),
-				'end_date': end_date.yyyymmdd()
-			};
-			$.ajax({
-				method: "POST",
-				url: ajaxurl,
-				data: data,
-				dataType: 'json'
-			})
-				.done(function( response ) {
-					if ( response.error !== undefined && response.error == false ) 
-					{
-						$("#users_count").empty().html( numberWithCommas( response.data.desktop.users_count ) );
-						$("#sessions_count").empty().html( numberWithCommas( response.data.desktop.sessions_count ) );
-						$("#avg_sessions_duration").empty().html( secondsToMinSeconds( response.data.desktop.avg_sessions_duration ) );
-						$("#pageviews_count").empty().html( numberWithCommas( response.data.desktop.pageviews_count ) );
-						$("#pageviews_per_session").empty().html( response.data.desktop.pageviews_per_session );
-					};
-				});
+			// Desktop
+			$("#users_count").empty().html('...');
+			$("#sessions_count").empty().html('...');
+			$("#avg_sessions_duration").empty().html('...');
+			$("#pageviews_count").empty().html('...');
+			$("#pageviews_per_session").empty().html('...');
+
+			// Mobile
+			$("#users_count_mobile").empty().html('...');
+			$("#sessions_count_mobile").empty().html('...');
+			$("#avg_sessions_duration_mobile").empty().html('...');
+			$("#pageviews_count_mobile").empty().html('...');
+			$("#pageviews_per_session_mobile").empty().html('...');
+
+			ga_calls(init_date.yyyymmdd(), end_date.yyyymmdd());
 
 			event.preventDefault();
 		});
@@ -195,6 +165,39 @@ jQuery(document).ready(function($) {
 	};
 });
 
+function ga_calls(start_date, end_date) {
+	var $ = jQuery;
+	var data = {
+		'action': 'ga_calls',
+		'post_id': post_id,
+		'start_date': start_date,
+		'end_date': end_date
+	};
+	$.ajax({
+		method: "POST",
+		url: ajaxurl,
+		data: data,
+		dataType: 'json'
+	})
+		.done(function( response ) {
+			if ( response.error !== undefined && response.error == false ) 
+			{
+				// Desktop
+				$("#users_count").empty().html( numberWithCommas( response.data.desktop.users_count ) );
+				$("#sessions_count").empty().html( numberWithCommas( response.data.desktop.sessions_count ) );
+				$("#avg_sessions_duration").empty().html( secondsToMinSeconds( response.data.desktop.avg_sessions_duration ) );
+				$("#pageviews_count").empty().html( numberWithCommas( response.data.desktop.pageviews_count ) );
+				$("#pageviews_per_session").empty().html( response.data.desktop.pageviews_per_session );
+
+				// Mobile
+				$("#users_count_mobile").empty().html( numberWithCommas( response.data.mobile.users_count ) );
+				$("#sessions_count_mobile").empty().html( numberWithCommas( response.data.mobile.sessions_count ) );
+				$("#avg_sessions_duration_mobile").empty().html( secondsToMinSeconds( response.data.mobile.avg_sessions_duration ) );
+				$("#pageviews_count_mobile").empty().html( numberWithCommas( response.data.mobile.pageviews_count ) );
+				$("#pageviews_per_session_mobile").empty().html( response.data.mobile.pageviews_per_session );
+			};
+		});
+}
 function numberWithCommas(x)
 {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

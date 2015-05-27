@@ -115,12 +115,12 @@ function ga_calls_callback()
 			
 			// Set dates params
 			// Start date
-			if ( empty( trim( $start_date ) ) ) 
+			if ( trim( $start_date ) == '' ) 
 			{
 				$start_date = '90daysAgo';
 			}
 			// End date
-			if ( empty( trim( $end_date ) ) ) 
+			if ( trim( $end_date ) == '' ) 
 			{
 				$end_date = 'yesterday';
 			}
@@ -158,11 +158,10 @@ function ga_calls_callback()
 						}
 					}
 				}
-				$avg_sessions_duration_mobile = $avg_sessions_duration_mobile / 2;
-				// $avg_sessions_duration_mobile = number_format($avg_sessions_duration_mobile , 2, '.', '');
+				$avg_sessions_duration_mobile = ceil ( $avg_sessions_duration_mobile / 2 );
 
 				$pageviews_per_session_mobile = $pageviews_per_session_mobile / 2;
-				// $pageviews_per_session_mobile = number_format($pageviews_per_session_mobile , 2, '.', '');
+				$pageviews_per_session_mobile = number_format($pageviews_per_session_mobile , 2, '.', '');
 
 				$response =  array(
 							"desktop" => array(
