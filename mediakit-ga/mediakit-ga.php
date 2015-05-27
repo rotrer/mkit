@@ -143,7 +143,7 @@ function ga_calls_callback()
 				$sessions_count = ceil( $resultsDesktop->totalsForAllResults['ga:sessions'] );
 				$avg_sessions_duration = ceil( $resultsDesktop->totalsForAllResults['ga:avgSessionDuration'] );
 				$pageviews_count = ceil( $resultsDesktop->totalsForAllResults['ga:pageviews'] );
-				$pageviews_per_session = $resultsDesktop->totalsForAllResults['ga:pageviewsPerSession'];
+				$pageviews_per_session = number_format($resultsDesktop->totalsForAllResults['ga:pageviewsPerSession'] , 2, '.', '');
 
 				//Mobile
 				if ( count( $resultsDesktop->rows > 0 ) ) 
