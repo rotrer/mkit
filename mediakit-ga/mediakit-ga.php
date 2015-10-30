@@ -90,11 +90,19 @@ function ga_calls_callback()
 
 		if ( $ga_account  ) 
 		{
-			// Declaramos nuestra configuración 
+			// Declaramos nuestra configuración Desarrollo
+			// $googleApi = array(
+			// 	'id' => '999359394470-cg7pe74pt9uqauoupd6cjjfdf5q5nsv3.apps.googleusercontent.com', // Id que nos ha dado la APIs Console
+			// 	'email' => '999359394470-cg7pe74pt9uqauoupd6cjjfdf5q5nsv3@developer.gserviceaccount.com', // email que nos ha dado la APIs Console
+			// 	'keyFile' => $path_plugin . 'api-library/Mediakit_Google_Lib-d29b45137945.p12', // nombre del fichero llave
+			// 	'gaAccount' => 'ga:' . $ga_account // id de la cuenta de analytics a la que nos conectamos
+			// );
+
+			// Declaramos nuestra configuración Produccion
 			$googleApi = array(
-				'id' => '999359394470-cg7pe74pt9uqauoupd6cjjfdf5q5nsv3.apps.googleusercontent.com', // Id que nos ha dado la APIs Console
-				'email' => '999359394470-cg7pe74pt9uqauoupd6cjjfdf5q5nsv3@developer.gserviceaccount.com', // email que nos ha dado la APIs Console
-				'keyFile' => $path_plugin . 'api-library/Mediakit_Google_Lib-d29b45137945.p12', // nombre del fichero llave
+				'id' => '735176970913-sev5925dnb13nd8ek9njr09bsto8f44j.apps.googleusercontent.com', // Id que nos ha dado la APIs Console
+				'email' => '735176970913-sev5925dnb13nd8ek9njr09bsto8f44j@developer.gserviceaccount.com', // email que nos ha dado la APIs Console
+				'keyFile' => $path_plugin . 'api-library/Mediakit_Production-acd889396203.p12', // nombre del fichero llave
 				'gaAccount' => 'ga:' . $ga_account // id de la cuenta de analytics a la que nos conectamos
 			);
 			 
@@ -301,15 +309,28 @@ function inst_calls_callback()
 //Get Facebook Likes Count of a page
 function fbLikeCount($id)
 {
+	/* Actualización consulta API Fb Likes
 	//Construct a Facebook URL
 	$json_url ='https://graph.facebook.com/'.$id.'';
-	$json = file_get_contents($json_url);
+	*/
+	$json_url = 'https://api.facebook.com/restserver.php?&method=links.getStats&urls=' . $id . '&format=json-strings';
+	$json = @file_get_contents($json_url);
 	$json_output = json_decode($json);
  
 	//Extract the likes count from the JSON object
-	if($json_output->likes){
-		return $likes = $json_output->likes;
-	}else{
+	if(is_array($json_output))
+	{
+		if (isset($json_output[0]->like_count)) 
+		{
+			return $json_output[0]->like_count;
+		} 
+		else 
+		{
+			return 0;
+		}
+	}
+	else
+	{
 		return 0;
 	}
 }
